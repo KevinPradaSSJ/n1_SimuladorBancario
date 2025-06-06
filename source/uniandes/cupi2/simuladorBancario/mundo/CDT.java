@@ -19,7 +19,9 @@ public class CDT
     // Atributos
     // -----------------------------------------------------------------
 
-    /**
+    private static final double SaldoCDT = 0;
+
+	/**
      * Valor inicial del CDT.
      */
     private double valorInvertido;
@@ -47,6 +49,11 @@ public class CDT
         valorInvertido = 0;
         interesMensual = 0;
         mesApertura = 0;
+    }
+    
+    public double darSaldoCDT( )
+    {
+    	return valorInvertido;
     }
 
     /**

@@ -78,6 +78,15 @@ public class PanelCDT extends JPanel implements ActionListener
      * Boton para cancelar un CDT.
      */
     private JButton btnCerrarCDT;
+    
+    private JLabel etiquetaInteres;
+    
+    private JTextField txtInteres;
+    
+    /**
+     * Etiqueta de Interes Generado
+     */
+    /*private J*/
 
     // -----------------------------------------------------------------
     // Constructores
@@ -97,6 +106,10 @@ public class PanelCDT extends JPanel implements ActionListener
         etiquetaSaldoCdt = new JLabel( "Saldo CDT: " );
         txtSaldoCdt = new JTextField( 14 );
         txtSaldoCdt.setEditable( false );
+        txtSaldoCdt.setPreferredSize(new Dimension(250, 30));
+        etiquetaInteres = new JLabel( "Interes Generado: ");
+        txtInteres = new JTextField( 14 );
+        txtInteres.setEditable( false );
 
         btnAbrirCDT = new JButton( "Abrir" );
         btnAbrirCDT.setActionCommand( ABRIR_CDT );
@@ -109,6 +122,9 @@ public class PanelCDT extends JPanel implements ActionListener
         btnCerrarCDT.setPreferredSize( new Dimension( 100, 0 ) );
 
         JPanel panelInfo = new JPanel( );
+        panelInfo.setLayout( new GridLayout( 2, 2, 2, 2) );
+        panelInfo.setBorder( new EmptyBorder( 0, 0, 5, 0 ) );
+        
         JPanel panelBotones = new JPanel( );
         panelInfo.setLayout( new GridLayout( 1, 2 ) );
         panelInfo.setBorder( new EmptyBorder( 0, 0, 5, 0 ) );
@@ -119,6 +135,8 @@ public class PanelCDT extends JPanel implements ActionListener
         // Ubica los elementos en el panel
         panelInfo.add( etiquetaSaldoCdt );
         panelInfo.add( txtSaldoCdt );
+        panelInfo.add( etiquetaInteres );
+        panelInfo.add( txtInteres );
         panelBotones.add( btnAbrirCDT, BorderLayout.WEST );
         panelBotones.add( new JLabel( " " ), BorderLayout.CENTER );
         panelBotones.add( btnCerrarCDT, BorderLayout.EAST );
@@ -138,9 +156,10 @@ public class PanelCDT extends JPanel implements ActionListener
      * <b>post: </b> Se actualizó la información con el saldo en CDT.
      * @param pSaldo Saldo en el CDT del cliente. pSaldo != null.
      */
-    public void actualizarSaldoCDT( String pSaldo )
+    public void actualizarSaldoCDT( String pSaldo, String interesCDT)
     {
         txtSaldoCdt.setText( pSaldo );
+        txtInteres.setText(interesCDT + "%");
     }
 
     /**
