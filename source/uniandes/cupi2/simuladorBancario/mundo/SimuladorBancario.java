@@ -219,6 +219,10 @@ public class SimuladorBancario
         corriente.consignarMonto( valorCierreCDT );
     }
     
+    public ArrayList<Transaccion> darTransacciones() {
+    	return transacciones;
+    }
+    
     private String formatearValor( float promedio )
     {
         DecimalFormat df = ( DecimalFormat )NumberFormat.getInstance( );
@@ -273,7 +277,7 @@ public class SimuladorBancario
      * @return Respuesta 2.
      */
     public String metodo2() {
-    	return "Respuesta 2";
+    	return "Return";turn "Respuesta 2";
     }
     
 }	

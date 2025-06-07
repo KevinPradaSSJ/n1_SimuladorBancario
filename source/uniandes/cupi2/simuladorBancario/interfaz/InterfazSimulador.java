@@ -22,6 +22,7 @@ import javax.swing.border.TitledBorder;
 import uniandes.cupi2.simuladorBancario.mundo.SimuladorBancario;
 
 
+
 /**	
  * Ventana principal de la aplicación.
  */
@@ -362,9 +363,7 @@ public class InterfazSimulador extends JFrame
      */
     public void reqFuncOpcion2( )
     {
-        String respuesta = cuenta.metodo2( );
-        actualizar( );
-        JOptionPane.showMessageDialog( this, respuesta, "Respuesta.", JOptionPane.INFORMATION_MESSAGE );
+    	this.panelOpciones.mostrarHistorialSwing(cuenta.darTransacciones());
     }
 
     // -----------------------------------------------------------------
