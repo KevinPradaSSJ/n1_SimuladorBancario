@@ -13,15 +13,17 @@ package uniandes.cupi2.simuladorBancario.interfaz;
 import java.awt.*;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import uniandes.cupi2.simuladorBancario.mundo.SimuladorBancario;
 
-import uniandes.cupi2.simuladorBancario.mundo.*;
 
-/**
+
+/**	
  * Ventana principal de la aplicación.
  */
 @SuppressWarnings("serial")
@@ -75,6 +77,8 @@ public class InterfazSimulador extends JFrame
      * Panel de visualización de datos personales.
      */
     private PanelDatosCliente panelDatos;
+    
+    
 
     // -----------------------------------------------------------------
     // Constructores
@@ -87,10 +91,10 @@ public class InterfazSimulador extends JFrame
     public InterfazSimulador( )
     {
         setTitle( "Simulador bancario" );
-        setSize( 600, 580 );
+        setSize( 700, 650 );
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
-        cuenta = new SimuladorBancario( "50.152.468", "Sergio López" );
+        cuenta = new SimuladorBancario( "1120564712", "Kevin Prada" );
 
         panelCDT = new PanelCDT( this );
         panelAhorros = new PanelAhorros( this );
@@ -140,15 +144,19 @@ public class InterfazSimulador extends JFrame
     {
         String nombre = cuenta.darNombre( );
         String cedula = cuenta.darCedula( );
+        double saldoAhorro = cuenta.darCuentaAhorros().darSaldo();
+        double interesAhorro = cuenta.darCuentaAhorros().darInteresMensual() * 100;
+        double saldoCDT = cuenta.darCDT().darSaldoCDT();
+        double interesCDT = cuenta.darCDT().darInteresMensual();
+        
         panelDatos.actualizarNombre( nombre );
         panelDatos.actualizarCedula( "" + cedula );
         panelSaldos.actualizarMes( cuenta.darMesActual( ) );
         panelSaldos.actualizarSaldoTotal( formatearValor( cuenta.calcularSaldoTotal( ) ) );
 
         panelCorriente.actualizarSaldoCorriente( formatearValor( cuenta.darCuentaCorriente( ).darSaldo( ) ) );
-        panelAhorros.actualizarSaldoAhorros( formatearValor( cuenta.darCuentaAhorros( ).darSaldo( ) ) + "   [" + ( cuenta.darCuentaAhorros( ).darInteresMensual( ) * 100 ) + "%]" );
-        panelCDT.actualizarSaldoCDT( formatearValor( cuenta.darCDT( ).calcularValorPresente( cuenta.darMesActual( ) ) ) + "   [" + ( cuenta.darCDT( ).darInteresMensual( ) * 100 ) + "%]" );
-
+        panelAhorros.actualizarSaldoAhorros( formatearValor(saldoAhorro), String.format("%.2f", interesAhorro));
+        panelCDT.actualizarSaldoCDT( formatearValor(saldoCDT), String.format("%.2f", interesCDT));
     }
 
     /**
@@ -342,9 +350,12 @@ public class InterfazSimulador extends JFrame
      */
     public void reqFuncOpcion1( )
     {
-        String respuesta = cuenta.metodo1( );
-        actualizar( );
-        JOptionPane.showMessageDialog( this, respuesta, "Respuesta.", JOptionPane.INFORMATION_MESSAGE );
+    	ArrayList<Integer> cuentasSeleccionadas = this.panelOpciones.panelOpcionUno();
+    	if (cuentasSeleccionadas != null) {
+    		String meses = JOptionPane.showInputDialog(this, "Introduzca los meses que quiere promediar según el saldo", "Meses", JOptionPane.QUESTION_MESSAGE);
+    		String respuesta = cuenta.metodo1(meses, cuentasSeleccionadas);
+    		JOptionPane.showMessageDialog( this, respuesta, "Respuesta.", JOptionPane.INFORMATION_MESSAGE );
+    	}
     }
 
     /**
@@ -352,9 +363,7 @@ public class InterfazSimulador extends JFrame
      */
     public void reqFuncOpcion2( )
     {
-        String respuesta = cuenta.metodo2( );
-        actualizar( );
-        JOptionPane.showMessageDialog( this, respuesta, "Respuesta.", JOptionPane.INFORMATION_MESSAGE );
+    	this.panelOpciones.mostrarHistorialSwing(cuenta.darTransacciones());
     }
 
     // -----------------------------------------------------------------

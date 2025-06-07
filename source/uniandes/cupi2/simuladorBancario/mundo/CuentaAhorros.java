@@ -13,7 +13,7 @@ package uniandes.cupi2.simuladorBancario.mundo;
 /**
  * Clase que representa la cuenta de ahorro de un cliente.
  */
-public class CuentaAhorros
+public class CuentaAhorros extends Cuenta
 {
     // -----------------------------------------------------------------
     // Atributos
@@ -28,6 +28,8 @@ public class CuentaAhorros
      * Interés mensual que paga la cuenta de ahorro.
      */
     private double interesMensual;
+    
+    
 
     // -----------------------------------------------------------------
     // Métodos
@@ -68,7 +70,7 @@ public class CuentaAhorros
      */
     public void consignarMonto( double pMonto )
     {
-        saldo = saldo + pMonto;
+    	saldo = saldo + pMonto;
     }
 
     /**
@@ -89,4 +91,5 @@ public class CuentaAhorros
     {
         saldo = saldo + ( saldo * interesMensual );
     }
+
 }

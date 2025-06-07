@@ -10,6 +10,12 @@
  */
 package uniandes.cupi2.simuladorBancario.mundo;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+
 /**
  * Clase que representa el simulador bancario para las tres cuentas de un cliente.
  */
@@ -145,6 +151,12 @@ public class SimuladorBancario
     {
         inversion.invertir( pMonto, pInteresMensual, mesActual );
     }
+    
+    public String obtenerFechaActual() {
+        LocalDate fecha = LocalDate.now();
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        return fecha.format(formato);
+    }
 
     /**
      * Consigna un monto de dinero en la cuenta corriente. <br>
@@ -201,27 +213,71 @@ public class SimuladorBancario
      * <b>pre: </b> La cuenta corriente y el CDT han sido inicializados. <br>
      * <b>post: </b> El CDT quedó cerrado y con valores en 0, y la cuenta corriente aumentó su saldo en el valor del cierre del CDT.
      */
-    public void cerrarCDT( )
+    public void cerrarCDT( )	
     {
         double valorCierreCDT = inversion.cerrar( mesActual );
         corriente.consignarMonto( valorCierreCDT );
     }
-
+    
+    public ArrayList<Transaccion> darTransacciones() {
+    	return transacciones;
+    }
+    
+    private String formatearValor( float promedio )
+    {
+        DecimalFormat df = ( DecimalFormat )NumberFormat.getInstance( );
+        df.applyPattern( "$ ###,###.##" );
+        df.setMinimumFractionDigits( 2 );
+        return df.format( promedio );
+    }
+    
     /**
      * Retorna el resultado de la extensión 1.
      * @return Respuesta 1.
      */
-    public String metodo1( )
-    {
-        return "Respuesta 1";
+    public String metodo1(String meses, ArrayList<Integer> cuentasSeleccionadas) {
+        try {
+            int mesesInt = Integer.parseInt(meses);
+            StringBuilder resultado = new StringBuilder();
+            
+            for (int tipoCuenta : cuentasSeleccionadas) {
+                float promedio = 0;
+                String nombreCuenta = "";
+                
+                switch(tipoCuenta) {
+                    case 1:
+                        promedio = inversion.saldoPromedio(mesesInt, inversion.darSaldoCDT(), inversion.darInteresMensual());
+                        nombreCuenta = "Cuenta CDT";
+                        break;
+                    case 2:
+                        promedio = corriente.saldoPromedio(mesesInt, corriente.darSaldo(), 0);
+                        nombreCuenta = "Cuenta Corriente";
+                        break;
+                    case 3:
+                        promedio = ahorros.saldoPromedio(mesesInt, ahorros.darSaldo(), ahorros.darInteresMensual());
+                        nombreCuenta = "Cuenta Ahorros";
+                        break;
+                    default:
+                        continue;
+                }
+
+                String formPromedio = this.formatearValor(promedio);
+                resultado.append(nombreCuenta).append(": ").append(formPromedio).append("\n");
+            }
+            
+            return resultado.toString();
+        } catch (NumberFormatException e) {
+            return "Por favor ingrese un número válido de meses";
+        }
     }
+
 
     /**
      * Retorna el resultado de la extensión 2.
      * @return Respuesta 2.
      */
-    public String metodo2( )
-    {
-        return "Respuesta 2";
+    public String metodo2() {
+    	return "Return";turn "Respuesta 2";
     }
-}
+    
+}	

@@ -13,13 +13,15 @@ package uniandes.cupi2.simuladorBancario.mundo;
 /**
  * Clase que representa un CDT.
  */
-public class CDT
+public class CDT extends Cuenta
 {
     // -----------------------------------------------------------------
     // Atributos
     // -----------------------------------------------------------------
 
-    /**
+    private static final double SaldoCDT = 0;
+
+	/**
      * Valor inicial del CDT.
      */
     private double valorInvertido;
@@ -48,6 +50,11 @@ public class CDT
         interesMensual = 0;
         mesApertura = 0;
     }
+    
+    public double darSaldoCDT( )
+    {
+    	return valorInvertido;
+    }
 
     /**
      * Retorna el interés que paga el banco mensualmente por este CDT.
@@ -59,7 +66,7 @@ public class CDT
     }
 
     /**
-     * Inicia una inversión en un CDT .<br>
+     * Inicia una inversión en un CDT .<br>|
      * <b>post: </b> Se cambian los valores del CDT, con los valores recibidos. <br>
      * @param pMontoInvertido Monto de dinero que se va a invertir en el CDT. pMontoInvertido > 0.
      * @param pInteresMensual Interés mensual que va a ganar el CDT. pInteresMensual > 0.
