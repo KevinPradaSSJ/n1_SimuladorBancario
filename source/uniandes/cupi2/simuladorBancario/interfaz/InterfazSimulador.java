@@ -13,15 +13,16 @@ package uniandes.cupi2.simuladorBancario.interfaz;
 import java.awt.*;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import uniandes.cupi2.simuladorBancario.mundo.SimuladorBancario;
 
-import uniandes.cupi2.simuladorBancario.mundo.*;
 
-/**
+/**	
  * Ventana principal de la aplicación.
  */
 @SuppressWarnings("serial")
@@ -75,6 +76,8 @@ public class InterfazSimulador extends JFrame
      * Panel de visualización de datos personales.
      */
     private PanelDatosCliente panelDatos;
+    
+    
 
     // -----------------------------------------------------------------
     // Constructores
@@ -153,7 +156,6 @@ public class InterfazSimulador extends JFrame
         panelCorriente.actualizarSaldoCorriente( formatearValor( cuenta.darCuentaCorriente( ).darSaldo( ) ) );
         panelAhorros.actualizarSaldoAhorros( formatearValor(saldoAhorro), String.format("%.2f", interesAhorro));
         panelCDT.actualizarSaldoCDT( formatearValor(saldoCDT), String.format("%.2f", interesCDT));
-
     }
 
     /**
@@ -347,9 +349,12 @@ public class InterfazSimulador extends JFrame
      */
     public void reqFuncOpcion1( )
     {
-        String respuesta = cuenta.metodo1( );
-        actualizar( );
-        JOptionPane.showMessageDialog( this, respuesta, "Respuesta.", JOptionPane.INFORMATION_MESSAGE );
+    	ArrayList<Integer> cuentasSeleccionadas = this.panelOpciones.panelOpcionUno();
+    	if (cuentasSeleccionadas != null) {
+    		String meses = JOptionPane.showInputDialog(this, "Introduzca los meses que quiere promediar según el saldo", "Meses", JOptionPane.QUESTION_MESSAGE);
+    		String respuesta = cuenta.metodo1(meses, cuentasSeleccionadas);
+    		JOptionPane.showMessageDialog( this, respuesta, "Respuesta.", JOptionPane.INFORMATION_MESSAGE );
+    	}
     }
 
     /**

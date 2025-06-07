@@ -1,6 +1,6 @@
 /**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- * Universidad de los Andes (Bogotá - Colombia)
- * Departamento de Ingeniería de Sistemas y Computación 
+ * Universidad de los Andes (BogotÃ¡ - Colombia)
+ * Departamento de IngenierÃ­a de Sistemas y ComputaciÃ³n 
  * Licenciado bajo el esquema Academic Free License version 2.1 
  *
  * Proyecto Cupi2 (http://cupi2.uniandes.edu.co)
@@ -13,16 +13,21 @@ package uniandes.cupi2.simuladorBancario.interfaz;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
+
 /**
- * Panel con las opciones de la aplicación.
+ * Panel con las opciones de la aplicaciÃ³n.
  */
 @SuppressWarnings("serial")
 public class PanelOpciones extends JPanel implements ActionListener
@@ -33,12 +38,12 @@ public class PanelOpciones extends JPanel implements ActionListener
     // -----------------------------------------------------------------
 
     /**
-     * Constante para la extensión 1.
+     * Constante para la extensiÃ³n 1.
      */
     private final static String OPCION_1 = "OPCION_1";
 
     /**
-     * Constante para la extensión 2.
+     * Constante para la extensiÃ³n 2.
      */
     private final static String OPCION_2 = "OPCION_2";
 
@@ -56,12 +61,12 @@ public class PanelOpciones extends JPanel implements ActionListener
     // -----------------------------------------------------------------
 
     /**
-     * Botón para hacer la extensión 1.
+     * BotÃ³n para hacer la extensiÃ³n 1.
      */
     private JButton opcion1;
 
     /**
-     * Botón para hacer la extensión 2.
+     * BotÃ³n para hacer la extensiÃ³n 2.
      */
     private JButton opcion2;
 
@@ -71,8 +76,8 @@ public class PanelOpciones extends JPanel implements ActionListener
 
     /**
      * Crea un nuevo panel e inicializa sus elementos. <br>
-     * <b>post: </b> Se inicializó el panel.
-     * @param pPrincipal Ventana principal de la aplicación. pPrincipal != null.
+     * <b>post: </b> Se inicializÃ³ el panel.
+     * @param pPrincipal Ventana principal de la aplicaciÃ³n. pPrincipal != null.
      */
     public PanelOpciones( InterfazSimulador pPrincipal )
     {
@@ -80,12 +85,12 @@ public class PanelOpciones extends JPanel implements ActionListener
         // Inicializa los elementos del panel
         principal = pPrincipal;
         opcion1 = new JButton( );
-        opcion1.setText( "Opción 1" );
+        opcion1.setText( "OpciÃ³n 1" );
         opcion1.setActionCommand( OPCION_1 );
         opcion1.addActionListener( this );
 
         opcion2 = new JButton( );
-        opcion2.setText( "Opción 2" );
+        opcion2.setText( "OpciÃ³n 2" );
         opcion2.setActionCommand( OPCION_2 );
         opcion2.addActionListener( this );
 
@@ -96,14 +101,51 @@ public class PanelOpciones extends JPanel implements ActionListener
         add( opcion2 );
     }
 
+    public ArrayList<Integer> panelOpcionUno() {
+        JCheckBox cuentaCorriente = new JCheckBox("Cuenta Corriente");
+        JCheckBox cuentaCDT = new JCheckBox("Cuenta CDT");
+        JCheckBox cuentaAhorros = new JCheckBox("Cuenta de Ahorros");
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.add(new JLabel("Selecciona una cuenta:"));
+        panel.add(cuentaCorriente);
+        panel.add(cuentaAhorros);
+        panel.add(cuentaCDT);
+        
+        int opcion = JOptionPane.showConfirmDialog(null, panel, "Seleccionar Opciones", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+        if (opcion == JOptionPane.OK_OPTION) {
+            ArrayList<Integer> cuentasSeleccionadas = new ArrayList<>();
+
+            if (cuentaCDT.isSelected())       cuentasSeleccionadas.add(1);
+            if (cuentaCorriente.isSelected()) cuentasSeleccionadas.add(2);
+            if (cuentaAhorros.isSelected())   cuentasSeleccionadas.add(3);
+
+            if (cuentasSeleccionadas.isEmpty()) { 
+            	JOptionPane.showMessageDialog(null, "No seleccionaste ninguna opciï¿½n.", "Opciones Seleccionadas", JOptionPane.INFORMATION_MESSAGE); 
+            	return null;	
+            }
+            return cuentasSeleccionadas;
+            
+        } else {
+            JOptionPane.showMessageDialog(null, "Operaciï¿½n cancelada", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            return null;
+        }
+    }
+
     // -----------------------------------------------------------------
     // Metodos
     // -----------------------------------------------------------------
 
     /**
      * Manejo de los eventos de los botones.
-     * @param pEvento Evento de click sobre un botón. pEvento != null.
+     * @param pEvento Evento de click sobre un botÃ³n. pEvento != null.
      */
+    
+    
+    
+    
     public void actionPerformed( ActionEvent pEvento )
     {
         try
@@ -120,7 +162,7 @@ public class PanelOpciones extends JPanel implements ActionListener
         }
         catch( Exception e )
         {
-            JOptionPane.showMessageDialog( principal, "Información inválida: intente de nuevo..." );
+            JOptionPane.showMessageDialog( principal, "InformaciÃ³n invÃ¡lida: intente de nuevo..." );
         }
     
 

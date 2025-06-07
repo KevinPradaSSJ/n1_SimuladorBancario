@@ -13,7 +13,7 @@ package uniandes.cupi2.simuladorBancario.mundo;
 /**
  * Clase que representa la cuenta corriente de un cliente.
  */
-public class CuentaCorriente
+public class CuentaCorriente extends Cuenta
 {
     // -----------------------------------------------------------------
     // Atributos
@@ -65,4 +65,5 @@ public class CuentaCorriente
     {
         saldo = saldo - pMonto;
     }
+    
 }
